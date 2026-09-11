@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Words Matcher
 
-## Getting Started
+Words Matcher is a text comparison tool built with Next.js, React, Tailwind CSS, and shadcn/ui. It helps you compare two content blocks and instantly shows:
 
-First, run the development server:
+- which lines do not match
+- which words are different
+- which text is missing or extra
+- how many changes were found
+
+It is designed for copy-pasted content from websites, PDFs, documents, or any multilingual source. It works across languages and ignores spacing-only differences so wrapped text does not produce false mismatches.
+
+Live demo: https://words-matcher.vercel.app/
+
+## Why this app exists
+
+A lot of text comparison issues happen because of formatting differences rather than actual content differences. For example:
+
+- line wraps change because the text is displayed in a different width
+- extra spaces or trailing spaces appear
+- a PDF or website version has slightly different formatting
+- the content is in a different language or script
+
+Words Matcher normalizes that noise and focuses on real mismatches.
+
+## Features
+
+- Two text areas for original and comparison text
+- Compare button to run the diff
+- Line-by-line comparison
+- Word-by-word mismatch highlighting
+- Unicode-aware text handling for non-English scripts
+- Ignores whitespace-only changes
+- Keeps values saved in local storage so refresh does not wipe the text
+- Clean shadcn-based UI
+
+## Example use cases
+
+- Compare website copy vs approved content
+- Check PDF text against source content
+- Validate translated content changes
+- Find exact wording differences in legal, marketing, or product text
+
+## Tech stack
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+
+## Getting started
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the app locally:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the app in your browser:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+If a different port is assigned by your environment, use that port instead.
 
-## Learn More
+## Production build
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To start the production build locally:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run start
+```
 
-## Deploy on Vercel
+## Project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```text
+app/
+components/
+lib/
+public/
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- app/: app shell and page layout
+- components/: UI and matcher component
+- lib/: comparison and diff logic
+- public/: static assets
+
+## Notes
+
+The comparison logic is designed to be robust for multilingual text and copy-pasted content from wrapped sources, so it focuses on actual content differences rather than layout-based formatting noise.
