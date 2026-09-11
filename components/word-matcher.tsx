@@ -258,9 +258,7 @@ export function WordMatcher() {
       </div>
 
       <div className="flex flex-wrap items-center gap-3">
-        <Button onClick={() => setSubmitted(true)} disabled={!textA && !textB}>
-          Compare
-        </Button>
+        <Button onClick={() => setSubmitted(true)}>Compare</Button>
         <Button
           variant="outline"
           onClick={() => {
