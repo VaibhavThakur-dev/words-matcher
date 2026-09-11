@@ -31,7 +31,7 @@ function WordDiffLine({
   return (
     <p
       dir="auto"
-      className="whitespace-pre-wrap wrap-break-word font-mono text-sm leading-relaxed"
+      className="whitespace-pre-wrap wrap-break-word font-sans text-sm leading-relaxed"
     >
       {words.map((w, idx) => {
         const visible =
@@ -76,7 +76,7 @@ function LineRow({ line }: { line: LineResult }) {
         </span>
         <p
           dir="auto"
-          className="whitespace-pre-wrap wrap-break-word font-mono text-sm text-muted-foreground"
+          className="whitespace-pre-wrap wrap-break-word font-sans text-sm text-muted-foreground"
         >
           {line.text || <span className="italic">(empty line)</span>}
         </p>
@@ -130,7 +130,7 @@ function LineRow({ line }: { line: LineResult }) {
         </div>
         <p
           dir="auto"
-          className="whitespace-pre-wrap wrap-break-word font-mono text-sm text-red-600 line-through dark:text-red-400"
+          className="whitespace-pre-wrap wrap-break-word font-sans text-sm text-red-600 line-through dark:text-red-400"
         >
           {line.text || <span className="italic">(empty line)</span>}
         </p>
@@ -153,7 +153,7 @@ function LineRow({ line }: { line: LineResult }) {
       </div>
       <p
         dir="auto"
-        className="whitespace-pre-wrap wrap-break-word font-mono text-sm text-green-700 dark:text-green-400"
+        className="whitespace-pre-wrap wrap-break-word font-sans text-sm text-green-700 dark:text-green-400"
       >
         {line.text || <span className="italic">(empty line)</span>}
       </p>
@@ -227,7 +227,7 @@ export function WordMatcher() {
               id="text-a"
               dir="auto"
               placeholder="Paste the original content here..."
-              className="min-h-65 font-mono text-sm"
+              className="min-h-65 font-sans text-sm"
               value={textA}
               onChange={(e) => setTextA(e.target.value)}
             />
@@ -249,7 +249,7 @@ export function WordMatcher() {
               id="text-b"
               dir="auto"
               placeholder="Paste the content you want to check here..."
-              className="min-h-65 font-mono text-sm"
+              className="min-h-65 font-sans text-sm"
               value={textB}
               onChange={(e) => setTextB(e.target.value)}
             />

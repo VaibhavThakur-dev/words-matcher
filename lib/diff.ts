@@ -60,9 +60,11 @@ export function isWhitespaceToken(token: string): boolean {
   return /^\s+$/.test(token);
 }
 
-/** Collapses runs of whitespace and trims, so spacing differences never count as a mismatch. */
-function normalizeSpaces(text: string): string {
-  return text.replace(/\s+/g, " ").trim();
+function normalizeForComparison(text: string): string {
+  return tokenizeWords(text)
+    .filter((token) => !isWhitespaceToken(token))
+    .map((token) => token.toLocaleLowerCase())
+    .join("\u0000");
 }
 
 // Sentence-ending punctuation across scripts: Latin ".!?;", Devanagari "।॥",
@@ -84,26 +86,16 @@ export function toComparisonUnits(text: string): string[] {
   const normalized = text.replace(/\r\n/g, "\n");
   if (normalized.trim() === "") return [];
 
-  const paragraphs = normalized
-    .split(/\n\s*\n+/)
-    .map((p) =>
-      p
-        .split("\n")
-        .map((l) => l.trim())
-        .filter((l) => l.length > 0)
-        .join(" "),
-    )
-    .filter((p) => p.length > 0);
+  const flowedText = normalized
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0)
+    .join(" ");
 
-  const units: string[] = [];
-  for (const paragraph of paragraphs) {
-    const sentences = paragraph
-      .split(SENTENCE_SPLIT_RE)
-      .map((s) => s.trim())
-      .filter((s) => s.length > 0);
-    units.push(...(sentences.length > 0 ? sentences : [paragraph]));
-  }
-  return units;
+  return flowedText
+    .split(SENTENCE_SPLIT_RE)
+    .map((sentence) => sentence.trim())
+    .filter((sentence) => sentence.length > 0);
 }
 
 export type WordDiffOp = DiffOp<string>;
@@ -111,7 +103,7 @@ export type WordDiffOp = DiffOp<string>;
 // Two whitespace tokens always count as equal (regardless of how many spaces/tabs),
 // so extra or missing spaces between words are never reported as a mismatch.
 function wordsEqual(x: string, y: string): boolean {
-  if (x === y) return true;
+  if (x === y || x.toLocaleLowerCase() === y.toLocaleLowerCase()) return true;
   return isWhitespaceToken(x) && isWhitespaceToken(y);
 }
 
@@ -147,7 +139,7 @@ export interface CompareResult {
 export function compareTexts(textA: string, textB: string): CompareResult {
   const linesA = toComparisonUnits(textA);
   const linesB = toComparisonUnits(textB);
-  const lineOps = lcsDiff(linesA, linesB, (x, y) => normalizeSpaces(x) === normalizeSpaces(y));
+  const lineOps = lcsDiff(linesA, linesB, (x, y) => normalizeForComparison(x) === normalizeForComparison(y));
 
   const lines: LineResult[] = [];
   let idxA = 0;
